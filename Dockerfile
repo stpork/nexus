@@ -27,17 +27,6 @@ RUN set -x \
 && rm -rf ${NEXUS_HOME}/nexus3 \
 && adduser -S -u 1001 -D -H -h ${NEXUS_DATA} -s /bin/false nexus nexus \
 && ln -s ${NEXUS_DATA} ${SONATYPE_DIR}/sonatype-work/nexus3 \
-&& PLUGIN_DIR=$NEXUS_HOME/system/com/roumanoff/nexus/nexus-crowd-plugin/${CROWD_VERSION} \
-&& mkdir -p ${PLUGIN_DIR} \
-&& curl -fsSL \
-"https://github.com/PatrickRoumanoff/nexus-crowd-plugin/wiki/nexus-crowd-plugin-${CROWD_VERSION}.jar" \
--o ${PLUGIN_DIR}/nexus-crowd-plugin-${CROWD_VERSION}.jar \
-&& ETC_KARAF=etc/karaf \
-&& CROWD_PLUGIN=crowd-plugin.properties \
-&& echo applicationName=${CROWD_APPLICATION} > ${NEXUS_HOME}/${ETC_KARAF}/${CROWD_PLUGIN} \
-&& echo applicationPassword=${CROWD_PASSWORD} >> ${NEXUS_HOME}/${ETC_KARAF}/${CROWD_PLUGIN} \
-&& echo crowdServerUrl=${CROWD_SERVER} >> ${NEXUS_HOME}/${ETC_KARAF}/${CROWD_PLUGIN} \
-&& echo mvn:com.roumanoff.nexus/nexus-crowd-plugin/${CROWD_VERSION} = 101 >> ${NEXUS_HOME}/${ETC_KARAF}/startup.properties \
 && chown -R 1001:0 ${NEXUS_HOME} \
 && chown -R 1001:0 ${NEXUS_DATA}
 
