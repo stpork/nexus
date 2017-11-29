@@ -7,7 +7,10 @@ SONATYPE_DIR=/opt/sonatype \
 NEXUS_DATA=/nexus-data \
 JAVA_MAX_MEM=1200m \
 JAVA_MIN_MEM=1200m \
-EXTRA_JAVA_OPTS=""
+EXTRA_JAVA_OPTS="" \
+CROWD_SERVER=http://jira:8080 \
+CROWD_NAME=nexus \
+CROWD_PASSWORD=nexus-pass
 
 ENV NEXUS_HOME=${SONATYPE_DIR}/nexus
 
@@ -23,6 +26,17 @@ RUN set -x \
 && rm -rf ${NEXUS_HOME}/nexus3 \
 && adduser -S -u 1001 -D -H -h ${NEXUS_DATA} -s /bin/false nexus nexus \
 && ln -s ${NEXUS_DATA} ${SONATYPE_DIR}/sonatype-work/nexus3 \
+&& PLUGIN_VERSION=3.2.7 \
+&& PLUGIN_NAME=nexus3-crowd-plugin-${PLUGIN_VERSION}
+&& curl -fsSL \
+"https://github.com/pingunaut/nexus3-crowd-plugin/releases/download/${PLUGIN_NAME}/${PLUGIN_NAME}.jar \
+-o ${NEXUS_HOME]/system/ \
+&& echo reference\\:file\\:nexus3-crowd-plugin-3.2.7.jar = 200 >> ${NEXUS_HOME}/etc/karaf/startup.properties \
+&& CROWD_PROPS=${NEXUS_HOME}/etc/crowd.properties \
+&& echo crowd.server.url=$CROWD_SERVER >> ${CROWD_PROPS} \
+&& echo application.name=$CROWD_NAME >> ${CROWD_PROPS} \
+&& echo application.password=$CROWD_PASSWORD >> ${CROWD_PROPS} \
+&& echo cache.authentication=false >> ${CROWD_PROPS} \
 && chown -R 1001:0 ${NEXUS_HOME} \
 && chown -R 1001:0 ${NEXUS_DATA}
 
