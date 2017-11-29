@@ -37,7 +37,7 @@ RUN set -x \
 && echo applicationName=${CROWD_APPLICATION} > ${NEXUS_HOME}/${ETC_KARAF}/${CROWD_PLUGIN} \
 && echo applicationPassword=${CROWD_PASSWORD} >> ${NEXUS_HOME}/${ETC_KARAF}/${CROWD_PLUGIN} \
 && echo crowdServerUrl=${CROWD_SERVER} >> ${NEXUS_HOME}/${ETC_KARAF}/${CROWD_PLUGIN} \
-&& PLUGIN_KEY="mvn\:com.roumanoff.nexus/nexus-crowd-plugin/"
+&& PLUGIN_KEY="mvn\:com.roumanoff.nexus/nexus-crowd-plugin/" \
 && echo $PLUGIN_KEY/${CROWD_VERSION} = 101 >> ${NEXUS_HOME}/${ETC_KARAF}/startup.properties \
 && chown -R 1001:0 ${NEXUS_HOME} \
 && chown -R 1001:0 ${NEXUS_DATA}
