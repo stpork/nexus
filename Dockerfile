@@ -2,7 +2,7 @@ FROM openjdk:8-jre-alpine
 
 MAINTAINER stpork from Mordor team
 
-ENV NEXUS_VERSION=3.7.0-04 \
+ENV NEXUS_VERSION=3.7.1-02 \
 SONATYPE_DIR=/opt/sonatype \
 NEXUS_DATA=/nexus-data \
 JAVA_MAX_MEM=1200m \
